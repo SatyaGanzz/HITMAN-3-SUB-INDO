@@ -1,5 +1,7 @@
 # 🕵️‍♂️ HITMAN: World of Assassination — Mod Subtitle & UI Bahasa Indonesia
 
+![HITMAN 3 Subtitle Indonesia Banner](media/nexus_banner.jpg)
+
 [![Game](https://img.shields.io/badge/Game-HITMAN_World_of_Assassination-red.svg)](https://store.steampowered.com/app/1659040/HITMAN_World_of_Assassination/)
 [![Platform](https://img.shields.io/badge/Platform-PC_(Steam_&_Epic)-blue.svg)]()
 [![Language](https://img.shields.io/badge/Language-Bahasa_Indonesia-brightgreen.svg)]()
@@ -8,6 +10,12 @@
 Mod lokalisasi lengkap untuk **HITMAN: World of Assassination (HITMAN 3)** di PC yang mengubah teks dialog percakapan, cutscene sinematik, briefing Diana Burnwood, dan antarmuka/menu utama ke dalam **Bahasa Indonesia**.
 
 Dibuat menggunakan format patch resmi engine (*Glacier 2 Engine*) sehingga **tidak memerlukan mod loader tambahan**, tidak perlu aplikasi pihak ketiga yang memberatkan, dan aman untuk game original di Steam maupun Epic Games.
+
+---
+
+## 📸 Tampilan / Preview In-Game
+
+![In-Game Subtitle Preview](media/nexus_preview_subtitle.jpg)
 
 ---
 
