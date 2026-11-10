@@ -9,10 +9,11 @@ echo ======================================================================
 echo.
 
 set "SCRIPT_DIR=%~dp0"
-set "MOD_RPKG=%SCRIPT_DIR%mod_files\chunk0patch5.rpkg"
+set "MOD_RPKG0=%SCRIPT_DIR%mod_files\chunk0patch5.rpkg"
+set "MOD_RPKG14=%SCRIPT_DIR%mod_files\chunk14patch5.rpkg"
 set "MOD_PKGDEF=%SCRIPT_DIR%mod_files\packagedefinition.txt"
 
-if not exist "%MOD_RPKG%" (
+if not exist "%MOD_RPKG0%" (
     echo [ERROR] File mod_files\chunk0patch5.rpkg tidak ditemukan!
     echo Pastikan folder mod_files tidak terhapus atau dipindahkan.
     pause
@@ -70,18 +71,53 @@ echo.
 echo Direktori game ditemukan: "!HITMAN_PATH!"
 echo.
 
-echo [2/3] Membuat backup file asli game (packagedefinition.txt)...
-if not exist "!HITMAN_PATH!\Runtime\packagedefinition.txt.bak" (
-    copy /Y "!HITMAN_PATH!\Runtime\packagedefinition.txt" "!HITMAN_PATH!\Runtime\packagedefinition.txt.bak" >nul
-    echo Backup berhasil dibuat: packagedefinition.txt.bak
+:: Cek apakah user menggunakan Simple Mod Framework (SMF)
+if exist "!HITMAN_PATH!\Simple Mod Framework" (
+    echo ======================================================================
+    echo [DETEKSI SMF] Game kamu menggunakan Simple Mod Framework (SMF)!
+    echo Mod akan dipasang langsung ke dalam sistem Simple Mod Framework.
+    echo ======================================================================
+    echo.
+    echo [2/3] Menyalin file mod ke Simple Mod Framework\Mods...
+    
+    if not exist "!HITMAN_PATH!\Simple Mod Framework\Mods\HITMAN 3 Sub Indo\chunk0" (
+        mkdir "!HITMAN_PATH!\Simple Mod Framework\Mods\HITMAN 3 Sub Indo\chunk0" >nul 2>&1
+    )
+    copy /Y "%MOD_RPKG0%" "!HITMAN_PATH!\Simple Mod Framework\Mods\HITMAN 3 Sub Indo\chunk0\sub_indo.rpkg" >nul
+    
+    if exist "%MOD_RPKG14%" (
+        if not exist "!HITMAN_PATH!\Simple Mod Framework\Mods\HITMAN 3 Sub Indo\chunk14" (
+            mkdir "!HITMAN_PATH!\Simple Mod Framework\Mods\HITMAN 3 Sub Indo\chunk14" >nul 2>&1
+        )
+        copy /Y "%MOD_RPKG14%" "!HITMAN_PATH!\Simple Mod Framework\Mods\HITMAN 3 Sub Indo\chunk14\sub_indo_c14.rpkg" >nul
+    )
+    
+    echo File mod berhasil disalin ke folder SMF (chunk0 & chunk14).
+    echo.
+    echo [3/3] Menjalankan Deploy SMF otomatis...
+    if exist "!HITMAN_PATH!\Simple Mod Framework\Deploy.exe" (
+        cd /d "!HITMAN_PATH!\Simple Mod Framework"
+        .\Deploy.exe --doNotPause
+        cd /d "%SCRIPT_DIR%"
+    ) else (
+        echo Silakan buka SMF Mod Manager lalu klik "Apply / Deploy" untuk mengaktifkan mod.
+    )
 ) else (
-    echo Backup asli sudah ada, melewati langkah ini.
+    echo [2/3] Membuat backup file asli game (packagedefinition.txt)...
+    if not exist "!HITMAN_PATH!\Runtime\packagedefinition.txt.bak" (
+        copy /Y "!HITMAN_PATH!\Runtime\packagedefinition.txt" "!HITMAN_PATH!\Runtime\packagedefinition.txt.bak" >nul
+        echo Backup berhasil dibuat: packagedefinition.txt.bak
+    ) else (
+        echo Backup asli sudah ada, melewati langkah ini.
+    )
+    echo.
+    echo [3/3] Memasang mod Subtitle Bahasa Indonesia...
+    copy /Y "%MOD_RPKG0%" "!HITMAN_PATH!\Runtime\chunk0patch5.rpkg" >nul
+    if exist "%MOD_RPKG14%" (
+        copy /Y "%MOD_RPKG14%" "!HITMAN_PATH!\Runtime\chunk14patch5.rpkg" >nul
+    )
+    copy /Y "%MOD_PKGDEF%" "!HITMAN_PATH!\Runtime\packagedefinition.txt" >nul
 )
-
-echo.
-echo [3/3] Memasang mod Subtitle Bahasa Indonesia...
-copy /Y "%MOD_RPKG%" "!HITMAN_PATH!\Runtime\chunk0patch5.rpkg" >nul
-copy /Y "%MOD_PKGDEF%" "!HITMAN_PATH!\Runtime\packagedefinition.txt" >nul
 
 color 0A
 echo.
@@ -90,10 +126,11 @@ echo    PEMASANGAN MOD SELESAI & BERHASIL! (SUKSES)
 echo ======================================================================
 echo.
 echo Langkah selanjutnya:
-echo 1. Buka game HITMAN World of Assassination dari Steam / Epic seperti biasa.
-echo 2. Pastikan bahasa di game diatur ke "ENGLISH" (karena mod menimpa teks English).
-echo 3. Di dalam game: Masuk ke Options -> Audio / Gameplay -> Subtitles: ON.
+echo 1. Buka game HITMAN World of Assassination seperti biasa.
+echo 2. Pastikan bahasa di game diatur ke "ENGLISH" (mod menimpa teks English).
+echo 3. WAJIB DI DALAM GAME: Masuk ke Options -^> Gameplay / Audio -^> Subtitles: ON.
+echo    (Hitman mematikan subtitle secara default, jadi harus di-ON-kan manual).
 echo.
-echo Selamat bermain!
+echo Selamat bermain! Agent 47 siap beraksi dalam Bahasa Indonesia!
 echo.
 pause

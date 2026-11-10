@@ -40,9 +40,23 @@ if not exist "!HITMAN_PATH!\Runtime" (
     exit /b 1
 )
 
-echo Menghapus file mod chunk0patch5.rpkg...
+:: Cek apakah menggunakan Simple Mod Framework
+if exist "!HITMAN_PATH!\Simple Mod Framework\Mods\HITMAN 3 Sub Indo" (
+    echo Menghapus mod dari Simple Mod Framework...
+    rd /s /q "!HITMAN_PATH!\Simple Mod Framework\Mods\HITMAN 3 Sub Indo" >nul 2>&1
+    if exist "!HITMAN_PATH!\Simple Mod Framework\Deploy.exe" (
+        echo Menjalankan Deploy SMF ulang...
+        cd /d "!HITMAN_PATH!\Simple Mod Framework"
+        .\Deploy.exe --doNotPause
+    )
+)
+
+echo Menghapus file mod patch manual...
 if exist "!HITMAN_PATH!\Runtime\chunk0patch5.rpkg" (
     del /f /q "!HITMAN_PATH!\Runtime\chunk0patch5.rpkg"
+)
+if exist "!HITMAN_PATH!\Runtime\chunk14patch5.rpkg" (
+    del /f /q "!HITMAN_PATH!\Runtime\chunk14patch5.rpkg"
 )
 
 echo Mengembalikan backup packagedefinition.txt...
